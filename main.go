@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jaakoob/ucp"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -12,13 +13,13 @@ func main() {
 	// read username, password, host and port from command line flags
 	userPtr := flag.String("user", "none", "username for smsc")
 	passwordPtr := flag.String("password", "none", "password for smsc")
-	hostPtr := flag.String("host", "none", "hostname or ip address of smsc")
+	hostPtr := flag.String("host", "1.1.1.1", "hostname or ip address of smsc")
 	portPtr := flag.Int("port", 5001, "port of smsc host")
 
 	// read message from command line flags
 	messagePtr := flag.String("message", "Test", "Message you want to send")
-	fromNumberPtr := flag.String("from", "123", "Number used to send messages")
-	toNumberPtr := flag.String("to", "456", "Number to send the message to")
+	fromNumberPtr := flag.String("from", "Hallo", "Number used to send messages")
+	toNumberPtr := flag.String("to", "Hallo", "Number to send the message to")
 
 	// create a random accescode
 	rand.Seed(time.Now().UnixNano())
@@ -31,8 +32,14 @@ func main() {
 		AccessCode: accessCode,
 	}
 	client := ucp.New(opt)
-	client.Connect()
+	if err := client.Connect(); err != nil {
+		fmt.Println("Cant connect")
+		os.Exit(1)
+	}
 	defer client.Close()
+	fmt.Println("From: ", *fromNumberPtr)
+	fmt.Println("To: ", *toNumberPtr)
+	fmt.Println("Message: ", *messagePtr)
 	ids, err := client.Send(*fromNumberPtr, *toNumberPtr, *messagePtr)
 
 	fmt.Println(err)
