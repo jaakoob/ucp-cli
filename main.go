@@ -8,14 +8,20 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"github.com/tkanos/gonfig"
 )
 
+type Configuration struct {
+	Port			int
+	Address			string
+	Username		string
+	Password		string
+}
+
 func main() {
-	// read username, password, host and port from command line flags
-	userPtr := flag.String("user", "none", "username for smsc")
-	passwordPtr := flag.String("password", "none", "password for smsc")
-	hostPtr := flag.String("host", "1.1.1.1", "hostname or ip address of smsc")
-	portPtr := flag.Int("port", 5001, "port of smsc host")
+	// read username, password, host and port from config file
+	configuration := Configuration{}
+	err := gonfig.GetConf("config.json", &configuration)
 
 	// read message from command line flags
 	messagePtr := flag.String("message", "Test", "Message you want to send")
@@ -29,10 +35,10 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	accessCode := RandStringBytes(10)
 
-	fmt.Println("User:", *userPtr)
-	fmt.Println("Password:", *passwordPtr)
+	fmt.Println("User:", configuration.Username)
+	fmt.Println("Password:", configuration.Password)
 	fmt.Println("AccessCode:", accessCode)
-	address := *hostPtr + ":" + strconv.Itoa(*portPtr)
+	address := configuration.Address + ":" + strconv.Itoa(configuration.Port)
 	fmt.Println("Address:", address)
 
 	fmt.Println("From:", *fromNumberPtr)
@@ -41,8 +47,8 @@ func main() {
 
 	opt := &ucp.Options{
 		Addr: address,
-		User: *userPtr,
-		Password: *passwordPtr,
+		User: configuration.Username,
+		Password: configuration.Password,
 		AccessCode: accessCode,
 	}
 	client := ucp.New(opt)
