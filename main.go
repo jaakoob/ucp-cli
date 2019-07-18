@@ -22,6 +22,9 @@ func main() {
 	fromNumberPtr := flag.String("from", "Hallo", "Number used to send messages")
 	toNumberPtr := flag.String("to", "Hallo", "Number to send the message to")
 
+	// parse all given flags
+	flag.Parse()
+
 	// create a random accescode
 	rand.Seed(time.Now().UnixNano())
 	accessCode := RandStringBytes(10)
