@@ -1,6 +1,6 @@
 {
     "Address": "1.1.1.1",
     "Port": 5001,
-    "Username": "foobar"
+    "Username": "foobar",
     "Password": "p4ssw0rd"
 }

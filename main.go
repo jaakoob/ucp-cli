@@ -19,17 +19,19 @@ type Configuration struct {
 }
 
 func main() {
-	// read username, password, host and port from config file
-	configuration := Configuration{}
-	err := gonfig.GetConf("config.json", &configuration)
-
 	// read message from command line flags
 	messagePtr := flag.String("message", "Test", "Message you want to send")
 	fromNumberPtr := flag.String("from", "Hallo", "Number used to send messages")
 	toNumberPtr := flag.String("to", "Hallo", "Number to send the message to")
 
+	configPathPtr := flag.String("config", "config.json", "Absoloute location of config file")
+
 	// parse all given flags
 	flag.Parse()
+
+	// read username, password, host and port from config file
+	configuration := Configuration{}
+	err := gonfig.GetConf(*configPathPtr, &configuration)
 
 	// create a random accescode
 	rand.Seed(time.Now().UnixNano())
