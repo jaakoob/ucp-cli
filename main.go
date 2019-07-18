@@ -46,14 +46,16 @@ func main() {
 		fmt.Println("Cant connect")
 		os.Exit(1)
 	}
+
 	defer client.Close()
+
 	fmt.Println("From:", *fromNumberPtr)
 	fmt.Println("To:", *toNumberPtr)
 	fmt.Println("Message:", *messagePtr)
 	ids, err := client.Send(*fromNumberPtr, *toNumberPtr, *messagePtr)
 
-	fmt.Println(err)
-	fmt.Println(ids)
+	fmt.Println("Error sending:", err)
+	fmt.Println("Return from sending:", ids)
 }
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
