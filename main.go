@@ -29,7 +29,7 @@ func main() {
 
 	fmt.Println("Address: " + *hostPtr + ":" + strconv.Itoa(*portPtr))
 	fmt.Println("User: ", *userPtr)
-	fmt.Println("Password: ", passwordPtr)
+	fmt.Println("Password: ", *passwordPtr)
 	fmt.Println("AccessCode: ", accessCode)
 
 	opt := &ucp.Options{
