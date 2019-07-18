@@ -29,14 +29,14 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	accessCode := RandStringBytes(10)
 
-
-	fmt.Println("Address: " + *hostPtr + ":" + strconv.Itoa(*portPtr))
-	fmt.Println("User: ", *userPtr)
-	fmt.Println("Password: ", *passwordPtr)
-	fmt.Println("AccessCode: ", accessCode)
+	fmt.Println("User:", *userPtr)
+	fmt.Println("Password:", *passwordPtr)
+	fmt.Println("AccessCode:", accessCode)
+	address := *hostPtr + ":" + strconv.Itoa(*portPtr)
+	fmt.Println("Address:", address)
 
 	opt := &ucp.Options{
-		Addr: *hostPtr + ":" + string(*portPtr),
+		Addr: address,
 		User: *userPtr,
 		Password: *passwordPtr,
 		AccessCode: accessCode,
@@ -47,9 +47,9 @@ func main() {
 		os.Exit(1)
 	}
 	defer client.Close()
-	fmt.Println("From: ", *fromNumberPtr)
-	fmt.Println("To: ", *toNumberPtr)
-	fmt.Println("Message: ", *messagePtr)
+	fmt.Println("From:", *fromNumberPtr)
+	fmt.Println("To:", *toNumberPtr)
+	fmt.Println("Message:", *messagePtr)
 	ids, err := client.Send(*fromNumberPtr, *toNumberPtr, *messagePtr)
 
 	fmt.Println(err)
