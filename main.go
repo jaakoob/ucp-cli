@@ -35,6 +35,10 @@ func main() {
 	address := *hostPtr + ":" + strconv.Itoa(*portPtr)
 	fmt.Println("Address:", address)
 
+	fmt.Println("From:", *fromNumberPtr)
+	fmt.Println("To:", *toNumberPtr)
+	fmt.Println("Message:", *messagePtr)
+
 	opt := &ucp.Options{
 		Addr: address,
 		User: *userPtr,
@@ -49,9 +53,6 @@ func main() {
 
 	defer client.Close()
 
-	fmt.Println("From:", *fromNumberPtr)
-	fmt.Println("To:", *toNumberPtr)
-	fmt.Println("Message:", *messagePtr)
 	ids, err := client.Send(*fromNumberPtr, *toNumberPtr, *messagePtr)
 
 	fmt.Println("Error sending:", err)
