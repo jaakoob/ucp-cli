@@ -6,6 +6,7 @@ import (
 	"github.com/jaakoob/ucp"
 	"math/rand"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -24,6 +25,12 @@ func main() {
 	// create a random accescode
 	rand.Seed(time.Now().UnixNano())
 	accessCode := RandStringBytes(10)
+
+
+	fmt.Println("Address: " + *hostPtr + ":" + strconv.Itoa(*portPtr))
+	fmt.Println("User: ", *userPtr)
+	fmt.Println("Password: ", passwordPtr)
+	fmt.Println("AccessCode: ", accessCode)
 
 	opt := &ucp.Options{
 		Addr: *hostPtr + ":" + string(*portPtr),
