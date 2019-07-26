@@ -53,7 +53,7 @@ func main() {
 	logwriter.Info(message)
 	message = "Message is: " + *messagePtr
 	logwriter.Info(message)
-	message = "SMSC: " configuration.Username + ":" + configuration.Password + "@" + address
+	message = "SMSC: " + configuration.Username + ":" + configuration.Password + "@" + address
 	logwriter.Info(message)
 
 	opt := &ucp.Options{
