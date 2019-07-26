@@ -20,7 +20,10 @@ type Configuration struct {
 }
 
 func main() {
-	logwriter, e := syslog.New(syslog.LOG_ERR, "ucp-cli")
+	logwriter, err := syslog.New(syslog.LOG_ERR, "ucp-cli")
+	if err != nil{
+		fmt.Println(err)
+	}
 
 
 	// read message from command line flags
@@ -36,6 +39,9 @@ func main() {
 	// read username, password, host and port from config file
 	configuration := Configuration{}
 	err := gonfig.GetConf(*configPathPtr, &configuration)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	// create a random accescode
 	rand.Seed(time.Now().UnixNano())
