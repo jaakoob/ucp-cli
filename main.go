@@ -46,7 +46,7 @@ func main() {
 
 	message := "Sending SM from " + *fromNumberPtr + " to " + *toNumberPtr
 	logwriter.Info(message)
-	message := "Message is: " + *messagePtr
+	message = "Message is: " + *messagePtr
 	logwriter.Info(message)
 
 	opt := &ucp.Options{
@@ -65,7 +65,7 @@ func main() {
 
 	ids, err := client.Send(*fromNumberPtr, *toNumberPtr, *messagePtr)
 
-	message := "Returning from sending:" + ids
+	message = "Returning from sending:" + ids[1]
 	logwriter.Info(message)
 }
 
