@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"time"
 	"github.com/tkanos/gonfig"
-	"log"
 	"log/syslog"
 )
 
@@ -45,9 +44,9 @@ func main() {
 	address := configuration.Address + ":" + strconv.Itoa(configuration.Port)
 	fmt.Println("Address:", address)
 
-	message = "Sending SM from " + *fromNumberPtr + " to " + *toNumberPtr
+	message := "Sending SM from " + *fromNumberPtr + " to " + *toNumberPtr
 	logwriter.Info(message)
-	message = "Message is: " *messagePtr
+	message := "Message is: " + *messagePtr
 	logwriter.Info(message)
 
 	opt := &ucp.Options{
@@ -66,7 +65,8 @@ func main() {
 
 	ids, err := client.Send(*fromNumberPtr, *toNumberPtr, *messagePtr)
 
-	logwriter.Info("Return from sending:", ids)
+	message := "Returning from sending:" + ids
+	logwriter.Info(message)
 }
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
