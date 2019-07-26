@@ -48,7 +48,6 @@ func main() {
 	accessCode := RandStringBytes(10)
 
 	address := configuration.Address + ":" + strconv.Itoa(configuration.Port)
-	fmt.Println("Address:", address)
 
 	message := "Sending SM from " + *fromNumberPtr + " to " + *toNumberPtr
 	logwriter.Info(message)
