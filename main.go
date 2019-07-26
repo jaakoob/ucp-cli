@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"time"
 	"github.com/tkanos/gonfig"
+	"log"
+	"log/syslog"
 )
 
 type Configuration struct {
@@ -19,6 +21,9 @@ type Configuration struct {
 }
 
 func main() {
+	logwriter, e := syslog.New(syslog.LOG_ERR, "ucp-cli")
+
+
 	// read message from command line flags
 	messagePtr := flag.String("message", "Test", "Message you want to send")
 	fromNumberPtr := flag.String("from", "Hallo", "Number used to send messages")
@@ -37,15 +42,13 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	accessCode := RandStringBytes(10)
 
-	fmt.Println("User:", configuration.Username)
-	fmt.Println("Password:", configuration.Password)
-	fmt.Println("AccessCode:", accessCode)
 	address := configuration.Address + ":" + strconv.Itoa(configuration.Port)
 	fmt.Println("Address:", address)
 
-	fmt.Println("From:", *fromNumberPtr)
-	fmt.Println("To:", *toNumberPtr)
-	fmt.Println("Message:", *messagePtr)
+	message = "Sending SM from " + *fromNumberPtr + " to " + *toNumberPtr
+	logwriter.Info(message)
+	message = "Message is: " *messagePtr
+	logwriter.Info(message)
 
 	opt := &ucp.Options{
 		Addr: address,
@@ -55,7 +58,7 @@ func main() {
 	}
 	client := ucp.New(opt)
 	if err := client.Connect(); err != nil {
-		fmt.Println("Cant connect")
+		logwriter.Err("Cant connect to SMSC")
 		os.Exit(1)
 	}
 
@@ -63,8 +66,7 @@ func main() {
 
 	ids, err := client.Send(*fromNumberPtr, *toNumberPtr, *messagePtr)
 
-	fmt.Println("Error sending:", err)
-	fmt.Println("Return from sending:", ids)
+	logwriter.Info("Return from sending:", ids)
 }
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
